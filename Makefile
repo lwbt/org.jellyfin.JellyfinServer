@@ -141,6 +141,9 @@ nuget-generated-sources-arm64.json:
 	  "nuget-generated-sources-arm64.json" "jellyfin/Jellyfin.Server/Jellyfin.Server.csproj"
 
 workflow-check:
-	action-updater update --quiet .github/workflows/
-	zizmor .github/workflows/
+# Causes problems with code style and in some cases even breaks workflows.
+# TODO: Replace soon.
+#	action-updater update --quiet .github/workflows/
+# Already included in pre-commit.
+#	zizmor .github/workflows/
 	pre-commit autoupdate
