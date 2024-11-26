@@ -9,14 +9,16 @@
 #
 name: Regenerate NuGet and Node Sources
 on:
+  # TODO: Remove, seems to be fixed.
   # Running this workflow on a schedule with the current tooling will only
   # create noise and waste resources. The order of the dependencies can change
   # while versions and hashes remain the same. Since this workflow now exists
   # and is considered complete, a maintainer should be able to run this
   # workflow on demand from the GitHub app on a mobile device when the bot
   # detects a new release of Jellyfin.
-  #schedule:
-  #- cron: 0 0/12 * * *
+  schedule:
+  # Past releases usually happened late on Ssturday
+  - cron: 15 6 * * SUN
   workflow_dispatch:
 env:
   MANIFEST: "main/org.jellyfin.JellyfinServer.yml"
