@@ -129,16 +129,19 @@ check-versions:
 
 npm-generated-sources.json:
 	flatpak-node-generator -o "npm-generated-sources.json" npm "jellyfin-web/package-lock.json"
+	npx prettier --write "npm-generated-sources.json"
 
 nuget-generated-sources-x64.json:
 	./flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py \
 	  --dotnet $(DOT_NET_VER) --freedesktop $(RUNTIME_VER) --runtime=linux-x64 \
 	  "nuget-generated-sources-x64.json" "jellyfin/Jellyfin.Server/Jellyfin.Server.csproj"
+	npx prettier --write "nuget-generated-sources-x64.json"
 
 nuget-generated-sources-arm64.json:
 	./flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py \
 	  --dotnet $(DOT_NET_VER) --freedesktop $(RUNTIME_VER) --runtime=linux-arm64 \
 	  "nuget-generated-sources-arm64.json" "jellyfin/Jellyfin.Server/Jellyfin.Server.csproj"
+	npx prettier --write "nuget-generated-sources-arm64.json"
 
 workflow-check:
 # Causes problems with code style and in some cases even breaks workflows.

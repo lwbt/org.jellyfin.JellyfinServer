@@ -64,12 +64,13 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install flatpak pipx -y --no-install-recommends
 
-    - name: Install yq binary
-      run: |
-        mkdir -pv ~/.local/bin
-        wget --quiet https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
-          -O ~/.local/bin/yq
-        chmod -v +x ~/.local/bin/yq
+    # NOTE: Seems to be already on the latest runner.
+    #- name: Install yq binary
+    #  run: |
+    #    mkdir -pv ~/.local/bin
+    #    wget --quiet https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+    #      -O ~/.local/bin/yq
+    #    chmod -v +x ~/.local/bin/yq
 
     - name: Extract environment variables from manifest
       run: |
@@ -109,7 +110,7 @@ jobs:
         repository: flatpak/flatpak-builder-tools
         path: flatpak-builder-tools
 
-    - name: Install flatpak-node-generator wit pipx
+    - name: Install flatpak-node-generator with pipx
       run: |
         pipx install "./flatpak-builder-tools/node/"
 
@@ -153,6 +154,19 @@ jobs:
       run: |
         flatpak-node-generator \
         -o "main/npm-generated-sources.json" npm "jellyfin-web/package-lock.json"
+
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: latest
+
+    - name: Install NPX and Prettier
+      run: |
+        npm install -g npx
+        npm install -g prettier
+
+    - name: Reformat JSON files
+      run: npx prettier --write ./*".json"
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
