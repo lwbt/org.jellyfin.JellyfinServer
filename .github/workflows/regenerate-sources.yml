@@ -160,9 +160,8 @@ jobs:
       with:
         node-version: latest
 
-    - name: Install NPX and Prettier
+    - name: Install Prettier
       run: |
-        npm install -g npx
         npm install -g prettier
 
     - name: Reformat JSON files
