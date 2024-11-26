@@ -66,13 +66,14 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install flatpak pipx -y --no-install-recommends
 
-    # NOTE: Seems to be already on the latest runner.
-    #- name: Install yq binary
-    #  run: |
-    #    mkdir -pv ~/.local/bin
-    #    wget --quiet https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
-    #      -O ~/.local/bin/yq
-    #    chmod -v +x ~/.local/bin/yq
+    - name: Install yq binary, if necessary
+      run: |
+        if ! command -v "yq" > /dev/null 2>&1; then
+          mkdir -pv ~/.local/bin
+          wget --quiet https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+            -O ~/.local/bin/yq
+          chmod -v +x ~/.local/bin/yq
+        fi
 
     - name: Extract environment variables from manifest
       run: |
